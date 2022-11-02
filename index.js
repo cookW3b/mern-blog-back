@@ -55,6 +55,10 @@ app.patch('/posts/:id', checkAuth, postCreateValidation, handleValidationErrors,
 
 app.get('/tags', PostController.getLastTags);
 
+app.get('/comments/:id', PostController.getComments);
+
+app.post('/comments/:id', checkAuth, PostController.createComment)
+
 app.listen(4444, (err) => {
 	if(err){
 		return console.log(err);

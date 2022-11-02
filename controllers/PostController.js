@@ -90,6 +90,7 @@ export const create = async(req, res) => {
 			imageUrl: req.body.imageUrl,
 			tags: req.body.tags,
 			user: req.userId,
+			comments: req.body.comments
 		});
 
 		const post = await doc.save();
@@ -166,15 +167,41 @@ export const getSortByViews = async(req, res) => {
 	}
 }
 
-// export const createComment = async(req, res) => {
-// 	try {
-// 		const postId = req.params.id;
-// 		const post = await PostModel.findById(postId).get('comments');
+export const getComments = async(req, res) => {
+	try {
+		const postId = await req.params.id;
+		const post = await PostModel.findById(postId).select("comments");
 
-// 		res.json(post);
-// 	} catch (error) {
-// 		res.status(500).json({
-// 			message: 'Не удалось отправить комментарий'
-// 		})
-// 	}
-// }
+		res.json(post);
+	} catch (error) {
+		res.status(500).json({
+			message: 'Не удалось получить комментарии'
+		})
+	}
+}
+
+export const createComment = async(req, res) => {
+	try {
+		const postId = await req.params.id;
+		const post = await PostModel.findById(postId).select("comments");
+		const comments = post.comments;
+		const newComments = [...comments, 
+			{
+				userName: req.userId,
+				text: req.body.comments.text
+			}];
+		await PostModel.updateOne({
+			_id: postId,
+		},
+		{
+			comments: newComments,
+		});
+
+		res.json(post);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({
+			message: 'Не удалось отправить комментарий'
+		})
+	}
+}

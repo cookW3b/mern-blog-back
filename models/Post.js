@@ -24,19 +24,19 @@ const PostSchema = new mongoose.Schema({
 		ref: 'User',
 		required: true
 	},
-	// coments: [
-	// 	{
-	// 		userName: {
-	// 			type: String,
-	// 			default: ''
-	// 		},
-	// 		text: {
-	// 			type: String,
-	// 			default: ''
-	// 		},
-	// 		default: ''
-	// 	},
-	// ]
+	comments: [
+		{
+			userName: {
+				type: String,
+				default: ''
+			},
+			text: {
+				type: String,
+				default: ''
+			},
+			default: ''
+		},
+	]
 
 }, {
 	timestamps: true,

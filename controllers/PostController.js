@@ -211,3 +211,15 @@ export const createComment = async(req, res) => {
 		})
 	}
 }
+
+export const getByTags = async(req, res) => {
+	try {
+		const tag = req.params.tag;
+		const posts = await PostModel.find({tags: tag}).populate('user').exec();
+		res.json(posts);
+	} catch (error) {
+		res.status(500).json({
+			message: 'Не удалось получить посты'
+		})
+	}
+}

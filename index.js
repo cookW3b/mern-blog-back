@@ -57,7 +57,9 @@ app.get('/tags', PostController.getLastTags);
 
 app.get('/comments/:id', PostController.getComments);
 
-app.post('/comments/:id', checkAuth, PostController.createComment)
+app.post('/comments/:id', checkAuth, PostController.createComment);
+
+app.get('/tags/:tag', PostController.getByTags);
 
 app.listen(4444, (err) => {
 	if(err){

@@ -1,4 +1,5 @@
 import PostModel from '../models/Post.js';
+import UserModel from '../models/User.js';
 
 export const getAll = async(req, res) => {
 	try {
@@ -184,11 +185,14 @@ export const createComment = async(req, res) => {
 	try {
 		const postId = await req.params.id;
 		const post = await PostModel.findById(postId).select("comments");
+		const fullName = await UserModel.findById(req.userId);
 		const comments = post.comments;
+
 		const newComments = [...comments, 
 			{
-				userName: req.userId,
-				text: req.body.comments.text
+				userName: fullName.fullName,
+				text: req.body.text,
+				avatarUrl: fullName.avatarUrl
 			}];
 		await PostModel.updateOne({
 			_id: postId,
@@ -197,7 +201,9 @@ export const createComment = async(req, res) => {
 			comments: newComments,
 		});
 
-		res.json(post);
+		res.json({
+			post,
+		});
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({

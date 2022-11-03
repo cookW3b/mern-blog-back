@@ -148,7 +148,7 @@ export const getLastTags = async(req, res) => {
 
 export const getSortByDate = async(req, res) => {
 	try {
-		const posts = await PostModel.find().sort([['createdAt', -1]]).exec();
+		const posts = await PostModel.find().populate('user').sort([['createdAt', -1]]).exec();
 		res.json(posts);
 	} catch (error) {
 		res.status(500).json({

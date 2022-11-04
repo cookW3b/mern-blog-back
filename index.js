@@ -10,7 +10,7 @@ import { checkAuth, handleValidationErrors } from './utils/index.js'
 
 import cors from 'cors';
 mongoose
-	.connect('mongodb+srv://Admin:nord2022@cluster0.jpmmmie.mongodb.net/blog?retryWrites=true&w=majority')
+	.connect('input link')
 	.then(() => console.log('DB ok'))
 	.catch((err) => console.log('DB error', err))
 
